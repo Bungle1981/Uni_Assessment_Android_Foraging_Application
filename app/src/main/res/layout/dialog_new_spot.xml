@@ -61,8 +61,9 @@
         android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-condensed"
         android:showText="false"
-        android:text="Do you want to share this spot with other users?\n\nTurn this switch on to share, or leave it off to create a spot that only you can access."
+        android:text="Turn this switch on to share this spot with other app users. Leave it off to create a spot that only you can access."
         android:textSize="14sp"
+        android:thumbTint="@drawable/newthumb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
