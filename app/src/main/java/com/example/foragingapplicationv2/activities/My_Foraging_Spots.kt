@@ -4,23 +4,20 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.foragingapplicationv2.R
 import com.example.foragingapplicationv2.adapters.RecyclerItemAdapter
+import com.example.foragingapplicationv2.customdialogs.EditSpotDialog
 import com.example.foragingapplicationv2.databinding.ActivityMyForagingSpotsBinding
 import com.example.foragingapplicationv2.firebase.FirestoreClass
 import com.example.foragingapplicationv2.roomdatabase.ForageSpotDao
 import com.example.foragingapplicationv2.roomdatabase.ForageSpotDatabase
 import com.example.foragingapplicationv2.roomdatabase.ForageSpotEntity
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class My_Foraging_Spots : BaseActivity() {
+class My_Foraging_Spots : BaseActivity(), EditSpotDialog.DialogListener2 {
     private var binding : ActivityMyForagingSpotsBinding? = null
     // Room DB Setup TODO - This is accessed on 2 activities - can I refactor to make the code easier
     private lateinit var db: ForageSpotDatabase
@@ -56,7 +53,11 @@ class My_Foraging_Spots : BaseActivity() {
             }, {
                 mapId->
                     getSpotDetails(mapId)
-                } )
+                }, {
+                    updateId->
+                    updateRecordDialog(updateId)
+                }
+            )
             binding?.recyclerView?.layoutManager = LinearLayoutManager(this)
             binding?.recyclerView?.adapter = itemAdapter
         }
@@ -99,5 +100,58 @@ class My_Foraging_Spots : BaseActivity() {
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
+
+
+
+
+    fun updateRecordDialog(updateID: Int) {
+        var spotToUpdate: ForageSpotEntity? = null
+        lifecycleScope.launch(Dispatchers.IO) {
+            spotToUpdate = forageSpotDao.fetchSpotBySpotID(updateID)
+        }.invokeOnCompletion {
+            if (spotToUpdate != null) {
+                var args: Bundle = Bundle()
+                args.putString("lat", spotToUpdate?.latitude.toString())
+                args.putString("lon", spotToUpdate?.longitude.toString())
+
+                args.putString("type", spotToUpdate?.forageType.toString())
+                args.putString("notes", spotToUpdate?.notes.toString())
+                args.putString("description", spotToUpdate?.addressDescription.toString())
+                args.putString("spotID", spotToUpdate?.spotID.toString())
+
+                val customDialogBox = EditSpotDialog()
+                customDialogBox.setArguments(args)
+                customDialogBox.show(supportFragmentManager, "MyCustomFragment")
+            }
+
+        }
+
+    }
+
+    override fun applyText(success: Boolean, forageName: String, foragenote: String?, position: LatLng, shared: Boolean, description: String, spotID: Int) {
+        if (success) {
+            var forageNote = ""
+            if (foragenote != null) {
+                forageNote = foragenote
+            }
+            val updatedSpot = ForageSpotEntity(
+                spotID = spotID,
+                submittedUserID = FirestoreClass().getCurrentUserID(),
+                forageType = forageName,
+                notes = forageNote,
+                latitude = position.latitude,
+                longitude = position.longitude,
+                shared = shared,
+                addressDescription = description
+            )
+            lifecycleScope.launch {
+                forageSpotDao.updateForageSpot(updatedSpot)
+            }.invokeOnCompletion {
+                startActivity(getIntent())
+                finish()
+            }
+        }
+    }
+
 
 }

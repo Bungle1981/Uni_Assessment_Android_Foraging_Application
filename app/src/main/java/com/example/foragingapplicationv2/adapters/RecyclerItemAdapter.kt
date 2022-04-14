@@ -11,7 +11,8 @@ import com.example.foragingapplicationv2.roomdatabase.ForageSpotEntity
 class RecyclerItemAdapter(
     private val items: List<ForageSpotEntity>,
     private val deleteListener:(id:Int)->Unit,
-    private val gotoMapListener:(id:Int)->Unit
+    private val gotoMapListener:(id:Int)->Unit,
+    private val updateListener:(id:Int)->Unit,
 ): RecyclerView.Adapter<RecyclerItemAdapter.ViewHolder>() {
 
     class ViewHolder(binding: ItemsRowBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -20,6 +21,7 @@ class RecyclerItemAdapter(
         val tvNotes = binding.tvForageNotes
         val ivDelete = binding.ivDelete
         val ivGoToMap = binding.ivGoToMap
+        val ivUpdate = binding.ivUpdateSpot
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,6 +41,10 @@ class RecyclerItemAdapter(
 
         holder.ivGoToMap.setOnClickListener{
             gotoMapListener.invoke(item.spotID)
+        }
+
+        holder.ivUpdate.setOnClickListener {
+            updateListener.invoke(item.spotID)
         }
     }
 

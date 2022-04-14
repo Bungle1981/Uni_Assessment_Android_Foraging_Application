@@ -55,29 +55,14 @@
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Switch
-        android:id="@+id/switchShareSpot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/roboto"
-        android:showText="false"
-        android:text="Turn this switch on to share this spot with other app users. Leave it off to create a spot that only you can access."
-        android:textSize="14sp"
-        android:thumbTint="@drawable/newthumb"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
         android:layout_width="0dp"
         android:layout_height="6dp"
-        android:layout_marginTop="15dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchShareSpot">
+        tools:layout_editor_absoluteY="201dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputForageLatitude"
@@ -113,6 +98,50 @@
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout5"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputForageLocationDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint=""
+            android:selectAllOnFocus="false"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout6"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputForageSpotID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint=""
+            android:selectAllOnFocus="false"
+            android:textIsSelectable="false"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <android.widget.Button
         android:id="@+id/btnCreateForagingSpot"
         android:layout_width="0dp"
@@ -122,12 +151,12 @@
         android:fontFamily="@font/roboto"
         android:foreground="?attr/selectableItemBackground"
         android:paddingVertical="12dp"
-        android:text="@string/new_spot"
+        android:text="Edit Foraging Spot"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

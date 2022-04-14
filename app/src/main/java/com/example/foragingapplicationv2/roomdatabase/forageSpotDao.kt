@@ -9,6 +9,9 @@ interface ForageSpotDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertForageSpot(forageSpot: ForageSpotEntity)
 
+    @Update
+    suspend fun updateForageSpot(forageSpot: ForageSpotEntity)
+
     @Delete
     suspend fun deleteForageSpot(forageSpotEntity: ForageSpotEntity)
 
